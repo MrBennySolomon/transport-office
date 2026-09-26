@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Download, Lock, Phone, RefreshCw, Search, X } from "lucide-react";
 
-const API_URL = "https://6aae754a606bd915d110d395.mockapi.io/api/clients";
+const API_URL = "https://6ab743059b03155d08087808.mockapi.io/api/transport";
 
 // סיסמת הכניסה למסך הניהול – מומלץ להחליף לפני שימוש בפועל
 const ADMIN_PASSWORD = "12345";

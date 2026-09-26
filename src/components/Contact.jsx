@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Clock3, Mail, MapPin, Phone, Send, Truck } from "lucide-react";
 import siteConfig from "../data/siteConfig";
 
-const API_URL = "https://6aae754a606bd915d110d395.mockapi.io/api/clients";
+const API_URL = "https://6ab743059b03155d08087808.mockapi.io/api/transport";
 
 export default function Contact() {
   const { contact, brand } = siteConfig;
