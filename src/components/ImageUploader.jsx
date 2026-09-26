@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // כתובת בסיס ה-Realtime Database (בלי סלאש בסוף)
 const DB_URL =
-  "https://users-be4a5-default-rtdb.europe-west1.firebasedatabase.app";
+  "https://test-7b343-default-rtdb.europe-west1.firebasedatabase.app";
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
