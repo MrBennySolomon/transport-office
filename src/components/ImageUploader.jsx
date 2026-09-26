@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Lock } from "lucide-react";
 
 // כתובת בסיס ה-Realtime Database (בלי סלאש בסוף)
 const DB_URL =
   "https://test-7b343-default-rtdb.europe-west1.firebasedatabase.app";
+
+// סיסמת הכניסה למסך העלאת התמונות – מומלץ להחליף לפני שימוש בפועל
+const UPLOADER_PASSWORD = "12345";
+const SESSION_KEY = "image-uploader-authed";
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -14,6 +19,16 @@ function fileToBase64(file) {
 }
 
 export default function ImageUploader() {
+  const [authed, setAuthed] = useState(() => {
+    try {
+      return sessionStorage.getItem(SESSION_KEY) === "true";
+    } catch {
+      return false;
+    }
+  });
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -21,9 +36,37 @@ export default function ImageUploader() {
   const [success, setSuccess] = useState(false);
   const [images, setImages] = useState([]);
 
+  function handleLogin(e) {
+    e.preventDefault();
+
+    if (password === UPLOADER_PASSWORD) {
+      setAuthError("");
+      setAuthed(true);
+
+      try {
+        sessionStorage.setItem(SESSION_KEY, "true");
+      } catch {
+        // sessionStorage לא זמין – ההתחברות עדיין תעבוד לטאב הנוכחי
+      }
+    } else {
+      setAuthError("סיסמה שגויה. נסו שוב.");
+    }
+  }
+
+  function logout() {
+    setAuthed(false);
+    setPassword("");
+
+    try {
+      sessionStorage.removeItem(SESSION_KEY);
+    } catch {
+      // ignore
+    }
+  }
+
   useEffect(() => {
-    loadImages();
-  }, []);
+    if (authed) loadImages();
+  }, [authed]);
 
   async function loadImages() {
     try {
@@ -88,9 +131,44 @@ export default function ImageUploader() {
     }
   }
 
+  if (!authed) {
+    return (
+      <div style={styles.loginWrap} dir="rtl">
+        <form style={styles.loginCard} onSubmit={handleLogin}>
+          <div style={styles.loginIcon}>
+            <Lock size={20} />
+          </div>
+
+          <h1 style={styles.loginTitle}>כניסה להעלאת תמונות</h1>
+          <p style={styles.loginSubtitle}>הזינו סיסמה כדי להמשיך</p>
+
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="סיסמה"
+            autoFocus
+            style={styles.loginInput}
+          />
+
+          {authError && <div style={styles.loginError}>{authError}</div>}
+
+          <button type="submit" style={styles.button}>
+            כניסה
+          </button>
+        </form>
+      </div>
+    );
+  }
+
   return (
-    <div style={styles.wrap}>
-      <h2>העלאת תמונה</h2>
+    <div style={styles.wrap} dir="rtl">
+      <div style={styles.topBar}>
+        <h2 style={{ margin: 0 }}>העלאת תמונה</h2>
+        <button onClick={logout} style={styles.logoutButton}>
+          יציאה
+        </button>
+      </div>
 
       <input type="file" accept="image/*" onChange={handleFileChange} />
 
@@ -133,6 +211,21 @@ const styles = {
     padding: 20,
     fontFamily: "Arial, sans-serif"
   },
+  topBar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10
+  },
+  logoutButton: {
+    padding: "7px 14px",
+    borderRadius: 8,
+    border: "1px solid #e3e7ed",
+    background: "#fff",
+    color: "#16202c",
+    cursor: "pointer",
+    fontSize: ".85rem"
+  },
   preview: { maxWidth: "100%", borderRadius: 10 },
   button: {
     marginTop: 10,
@@ -151,5 +244,50 @@ const styles = {
     gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
     gap: 10
   },
-  thumb: { width: "100%", height: 100, objectFit: "cover", borderRadius: 8 }
+  thumb: { width: "100%", height: 100, objectFit: "cover", borderRadius: 8 },
+
+  // מסך כניסה
+  loginWrap: {
+    display: "grid",
+    placeItems: "center",
+    minHeight: "100vh",
+    padding: 20,
+    fontFamily: "Arial, sans-serif",
+    background: "#f5f6f8"
+  },
+  loginCard: {
+    width: "100%",
+    maxWidth: 340,
+    background: "#fff",
+    border: "1px solid #e3e7ed",
+    borderRadius: 16,
+    padding: "28px 24px",
+    textAlign: "center",
+    boxShadow: "0 10px 30px rgba(20,30,45,.06)"
+  },
+  loginIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: "50%",
+    margin: "0 auto 14px",
+    display: "grid",
+    placeItems: "center",
+    background: "#eef1f5",
+    color: "#334155"
+  },
+  loginTitle: { fontSize: "1.25rem", margin: "0 0 4px" },
+  loginSubtitle: { margin: "0 0 18px", color: "#64748b" },
+  loginInput: {
+    width: "100%",
+    font: "inherit",
+    padding: "11px 13px",
+    borderRadius: 10,
+    border: "1px solid #e3e7ed",
+    textAlign: "center",
+    marginBottom: 12,
+    background: "#fbfcfd",
+    color: "#16202c",
+    boxSizing: "border-box"
+  },
+  loginError: { color: "#b3202c", fontSize: ".85rem", marginBottom: 12 }
 };

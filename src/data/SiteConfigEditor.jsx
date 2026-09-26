@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from "react";
+import { Lock } from "lucide-react";
 import "./SiteConfigEditor.css";
 import siteConfig from "./siteConfig";
+
+// סיסמת הכניסה לעריכת תוכן האתר – מומלץ להחליף לפני שימוש בפועל
+const EDITOR_PASSWORD = "12345";
+const SESSION_KEY = "site-config-editor-authed";
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
@@ -22,9 +27,47 @@ const emptyCard = () => ({
 });
 
 export default function SiteConfigEditor() {
+  const [authed, setAuthed] = useState(() => {
+    try {
+      return sessionStorage.getItem(SESSION_KEY) === "true";
+    } catch {
+      return false;
+    }
+  });
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+
   const [config, setConfig] = useState(() => clone(siteConfig));
   const [tab, setTab] = useState("brand");
   const [message, setMessage] = useState("");
+
+  function handleLogin(e) {
+    e.preventDefault();
+
+    if (password === EDITOR_PASSWORD) {
+      setAuthError("");
+      setAuthed(true);
+
+      try {
+        sessionStorage.setItem(SESSION_KEY, "true");
+      } catch {
+        // sessionStorage לא זמין – ההתחברות עדיין תעבוד לטאב הנוכחי
+      }
+    } else {
+      setAuthError("סיסמה שגויה. נסו שוב.");
+    }
+  }
+
+  function logout() {
+    setAuthed(false);
+    setPassword("");
+
+    try {
+      sessionStorage.removeItem(SESSION_KEY);
+    } catch {
+      // ignore
+    }
+  }
 
   const update = (path, value) => {
     setConfig((current) => {
@@ -123,6 +166,37 @@ export default function SiteConfigEditor() {
     ["export", "ייצוא"]
   ];
 
+  if (!authed) {
+    return (
+      <div className="config-login-screen" dir="rtl">
+        <style>{loginCss}</style>
+
+        <form className="config-login-card" onSubmit={handleLogin}>
+          <div className="config-login-icon">
+            <Lock size={20} />
+          </div>
+
+          <h1>כניסה לניהול התוכן</h1>
+          <p>הזינו סיסמה כדי לערוך את תוכן האתר</p>
+
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="סיסמה"
+            autoFocus
+          />
+
+          {authError && <div className="config-login-error">{authError}</div>}
+
+          <button className="btn primary" type="submit">
+            כניסה
+          </button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="config-page" dir="rtl">
       <header className="config-header">
@@ -134,6 +208,7 @@ export default function SiteConfigEditor() {
         <div className="header-actions">
           <button className="btn secondary" onClick={reset}>איפוס</button>
           <button className="btn primary" onClick={downloadConfig}>⬇ הורד siteConfig.js</button>
+          <button className="btn secondary" onClick={logout}>יציאה</button>
         </div>
       </header>
 
@@ -342,6 +417,32 @@ export default function SiteConfigEditor() {
     </div>
   );
 }
+
+const loginCss = `
+.config-login-screen {
+  display: grid; place-items: center; min-height: 100vh; padding: 20px;
+  background: #f5f6f8; font-family: inherit;
+}
+.config-login-card {
+  width: 100%; max-width: 340px; background: #fff;
+  border: 1px solid #e3e7ed; border-radius: 16px;
+  padding: 28px 24px; text-align: center;
+  box-shadow: 0 10px 30px rgba(20,30,45,.06);
+}
+.config-login-icon {
+  width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 14px;
+  display: grid; place-items: center; background: #eef1f5; color: #334155;
+}
+.config-login-card h1 { font-size: 1.25rem; margin: 0 0 4px; color: #16202c; }
+.config-login-card p { margin: 0 0 18px; color: #64748b; }
+.config-login-card input {
+  width: 100%; font: inherit; padding: 11px 13px; border-radius: 10px;
+  border: 1px solid #e3e7ed; text-align: center; margin-bottom: 12px;
+  background: #fbfcfd; color: #16202c; box-sizing: border-box;
+}
+.config-login-card input:focus-visible { outline: 2px solid #2f6fd0; outline-offset: 1px; }
+.config-login-error { color: #b3202c; font-size: .85rem; margin-bottom: 12px; }
+`;
 
 function Section({title, subtitle, children}) {
   return <section className="section"><div className="section-title"><div><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</div></div>{children}</section>;
