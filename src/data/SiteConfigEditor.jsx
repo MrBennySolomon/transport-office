@@ -188,7 +188,7 @@ export default function SiteConfigEditor() {
 
           {authError && <div className="login-error">{authError}</div>}
 
-          <button className="btn-primary" type="submit">
+          <button className="btn-primary1" type="submit">
             כניסה
           </button>
         </form>
