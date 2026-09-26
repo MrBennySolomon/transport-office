@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Download, Lock, Phone, RefreshCw, Search, X } from "lucide-react";
+import "../data/Login.css";
 
 const API_URL = "https://6ab743059b03155d08087808.mockapi.io/api/transport";
 
@@ -498,32 +499,7 @@ const css = `
 @keyframes admin-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
 
-.login-screen { display: grid; place-items: center; padding: 20px; }
-.login-card {
-  width: 100%; max-width: 340px; background: var(--panel);
-  border: 1px solid var(--line); border-radius: 16px;
-  padding: 28px 24px; text-align: center;
-  box-shadow: 0 10px 30px rgba(20,30,45,.06);
-}
-.login-icon {
-  width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 14px;
-  display: grid; place-items: center; background: #eef1f5; color: #334155;
-}
-.login-card h1 { font-size: 1.25rem; margin-bottom: 4px; }
-.login-card p { margin-bottom: 18px; }
-.login-card input {
-  width: 100%; font: inherit; padding: 11px 13px; border-radius: 10px;
-  border: 1px solid var(--line); text-align: center; margin-bottom: 12px;
-  background: #fbfcfd; color: var(--ink);
-}
-.login-card input:focus-visible { outline: 2px solid #2f6fd0; outline-offset: 1px; }
-.login-error { color: #b3202c; font-size: .85rem; margin-bottom: 12px; }
-.btn-primary {
-  width: 100%; font: inherit; font-weight: 600; cursor: pointer;
-  padding: 11px 14px; border-radius: 10px; border: none;
-  background: #16202c; color: #fff;
-}
-.btn-primary:hover { background: #223042; }
+/* עיצוב מסך הכניסה (login-screen / login-card וכו') עבר לקובץ Login.css המשותף */
 
 /* טאבלט */
 @media (max-width: 1024px) {

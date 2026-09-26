@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Lock } from "lucide-react";
+import "./Login.css";
 import "./SiteConfigEditor.css";
 import siteConfig from "./siteConfig";
 
@@ -168,11 +169,9 @@ export default function SiteConfigEditor() {
 
   if (!authed) {
     return (
-      <div className="config-login-screen" dir="rtl">
-        <style>{loginCss}</style>
-
-        <form className="config-login-card" onSubmit={handleLogin}>
-          <div className="config-login-icon">
+      <div className="login-screen" dir="rtl">
+        <form className="login-card" onSubmit={handleLogin}>
+          <div className="login-icon">
             <Lock size={20} />
           </div>
 
@@ -187,9 +186,9 @@ export default function SiteConfigEditor() {
             autoFocus
           />
 
-          {authError && <div className="config-login-error">{authError}</div>}
+          {authError && <div className="login-error">{authError}</div>}
 
-          <button className="btn primary" type="submit">
+          <button className="btn-primary" type="submit">
             כניסה
           </button>
         </form>
@@ -417,32 +416,6 @@ export default function SiteConfigEditor() {
     </div>
   );
 }
-
-const loginCss = `
-.config-login-screen {
-  display: grid; place-items: center; min-height: 100vh; padding: 20px;
-  background: #f5f6f8; font-family: inherit;
-}
-.config-login-card {
-  width: 100%; max-width: 340px; background: #fff;
-  border: 1px solid #e3e7ed; border-radius: 16px;
-  padding: 28px 24px; text-align: center;
-  box-shadow: 0 10px 30px rgba(20,30,45,.06);
-}
-.config-login-icon {
-  width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 14px;
-  display: grid; place-items: center; background: #eef1f5; color: #334155;
-}
-.config-login-card h1 { font-size: 1.25rem; margin: 0 0 4px; color: #16202c; }
-.config-login-card p { margin: 0 0 18px; color: #64748b; }
-.config-login-card input {
-  width: 100%; font: inherit; padding: 11px 13px; border-radius: 10px;
-  border: 1px solid #e3e7ed; text-align: center; margin-bottom: 12px;
-  background: #fbfcfd; color: #16202c; box-sizing: border-box;
-}
-.config-login-card input:focus-visible { outline: 2px solid #2f6fd0; outline-offset: 1px; }
-.config-login-error { color: #b3202c; font-size: .85rem; margin-bottom: 12px; }
-`;
 
 function Section({title, subtitle, children}) {
   return <section className="section"><div className="section-title"><div><h2>{title}</h2>{subtitle && <p>{subtitle}</p>}</div></div>{children}</section>;
