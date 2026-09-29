@@ -13,7 +13,6 @@ const siteConfig = {
     { to: "/services", label: "שירותי הובלה" },
     { to: "/admin", label: "ניהול פניות" },
     { to: "/edit", label: "עריכה" },
-    { to: "/upload", label: "העלאת תמונות" },
     { to: "/contact", label: "קבלת הצעת מחיר" }
   ],
 
