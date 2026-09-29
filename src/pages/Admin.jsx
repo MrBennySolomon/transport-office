@@ -101,7 +101,6 @@ export default function Admin() {
 
       setRows(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
       setError("לא הצלחנו לטעון את בקשות ההובלה. בדקו את החיבור ונסו שוב.");
     } finally {
       setLoading(false);
@@ -126,7 +125,6 @@ export default function Admin() {
 
       setRows((prev) => prev.filter((row) => row.id !== id));
     } catch (err) {
-      console.error(err);
       setError("מחיקת הבקשה נכשלה. נסו שוב.");
     } finally {
       setDeletingId(null);
