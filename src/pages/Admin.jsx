@@ -2,18 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Download, Lock, Phone, RefreshCw, Search, X } from "lucide-react";
 import "../data/Login.css";
 
-// const API_URL = "https://6ab743059b03155d08087808.mockapi.io/api/transport";
-const API_URL = await fetch(
-  "business-server-git-main-mrbennysolomons-projects.vercel.app/transport-office"
-)
-  .then((response) => response.json())
-  .then((data) => {
-    return data;
-  })
-  .catch((error) => {
-    console.error("Error fetching API URL:", error);
-    return "error";
-  });
+const API_URL = "https://6ab743059b03155d08087808.mockapi.io/api/transport";
 
 // סיסמת הכניסה למסך הניהול – מומלץ להחליף לפני שימוש בפועל
 const ADMIN_PASSWORD = "12345";

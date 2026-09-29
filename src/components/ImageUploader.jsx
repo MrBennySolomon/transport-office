@@ -13,7 +13,6 @@ const DB_URL = await fetch(
     return data;
   })
   .catch((error) => {
-    console.error("Error fetching API URL:", error);
     return "error";
   });
 // סיסמת הכניסה למסך העלאת התמונות – מומלץ להחליף לפני שימוש בפועל
@@ -133,7 +132,6 @@ export default function ImageUploader() {
       setPreview("");
       loadImages();
     } catch (err) {
-      console.error(err);
       setError(
         "העלאת התמונה נכשלה. בדוק את חוקי ההרשאה (Rules) של מסד הנתונים ונסה שוב."
       );
