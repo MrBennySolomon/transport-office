@@ -43,7 +43,7 @@ const styles = {
     padding: "11px 0",
     border: "none",
     borderRadius: 8,
-    background: "#f04a32",
+    background: "#f59e0b",
     color: "#fff",
     fontSize: 16,
     cursor: "pointer"
@@ -75,7 +75,7 @@ const styles = {
 
 /* ---------- טופס הרשמה / התחברות ---------- */
 function AuthForm({ mode, onSuccess, onSwitch }) {
-  const isRegister = mode === "register";
+  const isRegister = false;
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -129,9 +129,9 @@ function AuthForm({ mode, onSuccess, onSwitch }) {
       </button>
 
       <div style={styles.switchRow}>
-        {isRegister ? "כבר יש לך חשבון? " : "אין לך חשבון? "}
+        {/*isRegister ? "כבר יש לך חשבון? " : "אין לך חשבון? "*/}
         <button style={styles.link} onClick={onSwitch}>
-          {isRegister ? "להתחברות" : "להרשמה"}
+          {/*isRegister ? "להתחברות" : "להרשמה"*/}
         </button>
       </div>
     </div>
