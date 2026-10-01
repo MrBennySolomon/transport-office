@@ -11,8 +11,8 @@ const siteConfig = {
     { to: "/", label: "ראשי" },
     { to: "/about", label: "אודות" },
     { to: "/services", label: "שירותי הובלה" },
-    { to: "/admin", label: "ניהול פניות" },
-    { to: "/edit", label: "עריכה" },
+    { to: "/admin", label: "ניהול" },
+    { to: "/edit", label: "עריכת האתר" },
     { to: "/login", label: "התחבר" },
     { to: "/contact", label: "קבלת הצעת מחיר" }
   ],

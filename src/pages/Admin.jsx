@@ -5,7 +5,7 @@ import "../data/Login.css";
 const API_URL = "https://6ab743059b03155d08087808.mockapi.io/api/transport";
 
 // סיסמת הכניסה למסך הניהול – מומלץ להחליף לפני שימוש בפועל
-const ADMIN_PASSWORD = "12345";
+const ADMIN_PASSWORD = "";
 const SESSION_KEY = "admin-authed";
 
 // כל קטגוריה מקבלת צבע משלה – זהה בטבלה ובכרטיסים
@@ -61,7 +61,7 @@ export default function Admin() {
   function handleLogin(e) {
     e.preventDefault();
 
-    if (password === ADMIN_PASSWORD) {
+    if (password === ADMIN_PASSWORD && localStorage.getItem("token")) {
       setAuthError("");
       setAuthed(true);
 
@@ -71,7 +71,7 @@ export default function Admin() {
         // sessionStorage לא זמין – ההתחברות עדיין תעבוד לטאב הנוכחי
       }
     } else {
-      setAuthError("סיסמה שגויה. נסו שוב.");
+      setAuthError("התחבר ואז נסה שוב");
     }
   }
 
@@ -196,16 +196,15 @@ export default function Admin() {
             <Lock size={20} />
           </div>
 
-          <h1>כניסה לניהול</h1>
-          <p>הזינו סיסמה כדי לצפות בבקשות ההובלה</p>
+          <h3>כניסה לניהול פניות</h3>
 
-          <input
+          {/* <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="סיסמה"
             autoFocus
-          />
+          /> */}
 
           {authError && <div className="login-error">{authError}</div>}
 
