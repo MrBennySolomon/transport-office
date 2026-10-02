@@ -9,7 +9,7 @@ import siteConfig from "./siteConfig";
 const EDITOR_PASSWORD = "";
 const SESSION_KEY = "site-config-editor-authed";
 const SAVE_URL = "https://business-server-five.vercel.app/upload"; // כתובת השרת לשמירת siteConfig.js
-const GITHUB_REPO_NAME = "garage"; // שם הריפו ב-GitHub שאליו נשמר הקובץ
+const GITHUB_REPO_NAME = "transport-office"; // שם הריפו ב-GitHub שאליו נשמר הקובץ
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
