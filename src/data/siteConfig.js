@@ -17,7 +17,7 @@ const siteConfig = {
     },
     {
       to: "/services",
-      label: "שירותי הובלה",
+      label: "שירותים",
     },
     {
       to: "/admin",
